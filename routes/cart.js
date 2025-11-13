@@ -5,7 +5,7 @@ const {
   addToCart,
   removeFromCart,
   clearCart
-} = require('../controllers/cart');
+} = require('../controllers/cartController'); // Correct file name
 
 router.get('/', getCart);
 router.post('/', addToCart);

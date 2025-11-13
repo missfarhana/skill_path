@@ -1,0 +1,32 @@
+{
+  "classes": [
+    {
+      "id": 1,
+      "subject": "Mathematics",
+      "location": "Flic en Flac Center",
+      "price": 500,
+      "availability": 5
+    },
+    {
+      "id": 2,
+      "subject": "English",
+      "location": "Tamarin Library",
+      "price": 450,
+      "availability": 5
+    },
+    {
+      "id": 3,
+      "subject": "Coding Basics",
+      "location": "Port Louis Tech Hub",
+      "price": 800,
+      "availability": 5
+    },
+    {
+      "id": 4,
+      "subject": "Art & Drawing",
+      "location": "Curepipe Art Studio",
+      "price": 600,
+      "availability": 5
+    }
+  ]
+}
