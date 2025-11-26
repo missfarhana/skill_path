@@ -11,9 +11,10 @@ const MONGO_URI = process.env.DB_URI;
 
 const app = express();
 app.use(cors({
-  origin: "*", 
+  origin: ["http://localhost:53123", "null", "http://localhost:3000", "*"],
   methods: "GET,POST,PUT,DELETE",
 }));
+
 app.use(bodyParser.json());
 
 // MongoDB connection URL
