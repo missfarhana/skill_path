@@ -1,4 +1,4 @@
-
+// GET ALL CART ITEMS
 exports.getCart = async (req, res) => {
   try {
     const cartItems = await req.cart.find().toArray();
@@ -8,49 +8,93 @@ exports.getCart = async (req, res) => {
   }
 };
 
-// Add item to cart
 exports.addToCart = async (req, res) => {
+  console.log("hello". req.classes)
   try {
-    const { classId } = req.body;
+    let { classId } = req.body;
+    classId = parseInt(classId);
 
-    // Check if the class exists
     const classItem = await req.classes.findOne({ id: classId });
-    if (!classItem) return res.status(404).json({ message: 'Class not found' });
+    if (!classItem) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
 
-    // Check if item already exists in cart
+    if (classItem.availability <= 0) {
+      return res.status(400).json({ message: 'No spaces left' });
+    }
+
+    await req.classes.updateOne(
+      { id: classId },
+      { $inc: { availability: -1 } }
+    );
+
     const existing = await req.cart.findOne({ classId });
+
     if (existing) {
-      await req.cart.updateOne({ classId }, { $inc: { quantity: 1 } });
+      await req.cart.updateOne(
+        { classId },
+        { $inc: { quantity: 1 } }
+      );
     } else {
       await req.cart.insertOne({
         classId,
         name: classItem.name,
         price: classItem.price,
-        quantity: 1
+        quantity: 1,
       });
     }
 
     const updatedCart = await req.cart.find().toArray();
     res.json(updatedCart);
+
   } catch (err) {
     res.status(500).json({ message: 'Error adding to cart', error: err });
   }
 };
 
-// Remove one item from cart
+
+// DECREASE QUANTITY OR REMOVE
+exports.decreaseCartItem = async (req, res) => {
+  try {
+    const classId = parseInt(req.params.classId);
+
+    const item = await req.cart.findOne({ classId });
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found in cart' });
+    }
+
+    if (item.quantity > 1) {
+      await req.cart.updateOne({ classId }, { $inc: { quantity: -1 } });
+    } else {
+      await req.cart.deleteOne({ classId });
+    }
+
+    const updatedCart = await req.cart.find().toArray();
+    res.json(updatedCart);
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error decreasing item', error: err });
+  }
+};
+
+// REMOVE COMPLETELY
 exports.removeFromCart = async (req, res) => {
   try {
     const classId = parseInt(req.params.classId);
+
     await req.cart.deleteOne({ classId });
+
     const updatedCart = await req.cart.find().toArray();
     res.json(updatedCart);
+
   } catch (err) {
     res.status(500).json({ message: 'Error removing item', error: err });
   }
 };
 
-// Clear entire cart
+// CLEAR CART
 exports.clearCart = async (req, res) => {
+  console.log("delete function called")
   try {
     await req.cart.deleteMany({});
     res.json({ message: 'Cart cleared' });

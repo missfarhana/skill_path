@@ -10,7 +10,10 @@ const cartRoutes = require('./routes/cart');
 const MONGO_URI = process.env.DB_URI;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*", 
+  methods: "GET,POST,PUT,DELETE",
+}));
 app.use(bodyParser.json());
 
 // MongoDB connection URL

@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {
-  getCart,
-  addToCart,
-  removeFromCart,
-  clearCart
-} = require('../controllers/cartController'); // Correct file name
+const cartCtrl = require('../controllers/cartController');
 
-router.get('/', getCart);
-router.post('/', addToCart);
-router.delete('/:classId', removeFromCart);
-router.delete('/', clearCart);
+router.get('/', cartCtrl.getCart);
+router.post('/add', cartCtrl.addToCart);
+router.put('/decrease/:classId', cartCtrl.decreaseCartItem);
+router.delete('/remove/:classId', cartCtrl.removeFromCart);
+router.delete('/clear', cartCtrl.clearCart);
 
 module.exports = router;
