@@ -102,7 +102,6 @@ exports.removeFromCart = async (req, res) => {
   }
 };
 
-// CLEAR CART
 exports.clearCart = async (req, res) => {
   console.log("delete function called")
   try {

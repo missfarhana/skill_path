@@ -8,7 +8,6 @@ exports.getAllClasses = async (req, res) => {
   }
 };
 
-// GET ONE BY ID
 exports.getClassById = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -58,7 +57,36 @@ exports.updateClass = async (req, res) => {
   }
 };
 
-// DELETE
+exports.searchLessons = async (req, res) => {
+  try {
+    const query = req.query.q;
+
+    if (!query || query.trim() === "") {
+      return res.json([]); 
+    }
+
+    const search = query.toLowerCase();
+
+    const lessons = await req.classes.find().toArray();
+
+    const filtered = lessons.filter(lesson => {
+      return (
+        lesson.subject.toLowerCase().includes(search) ||
+        lesson.location.toLowerCase().includes(search) ||
+        lesson.price.toString().includes(search) ||
+        lesson.spaces.toString().includes(search)
+      );
+    });
+
+    res.json(filtered);
+
+  } catch (err) {
+    console.log("errorr", err)
+    res.status(500).json({ message: "Search error", error: err });
+  }
+};
+
+
 exports.deleteClass = async (req, res) => {
   try {
     const id = parseInt(req.params.id);

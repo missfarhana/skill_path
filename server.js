@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const classRoutes = require('./routes/classes');
 const cartRoutes = require('./routes/cart');
+const checkoutRoutes = require('./routes/checkout');
 
 const MONGO_URI = process.env.DB_URI;
 
@@ -30,17 +31,20 @@ async function startServer() {
     const db = client.db('extra_classes'); 
     const classesCollection = db.collection('classes'); // collection name
     const cartCollection = db.collection('cart');
+    const cartOrderCollection = db.collection('cart_order');
 
     app.use((req, res, next) => {
       req.db = db;
       req.classes = classesCollection;
       req.cart = cartCollection;
+      req.cart_order = cartOrderCollection;
       next();
     });
 
     // Routes
     app.use('/api/classes', classRoutes);
     app.use('/api/cart', cartRoutes);
+    app.use('/api/checkout', checkoutRoutes);
 
     // Start server
     const PORT = process.env.PORT || 5000;
