@@ -7,7 +7,12 @@ require('dotenv').config();
 const classRoutes = require('./routes/classes');
 const cartRoutes = require('./routes/cart');
 const checkoutRoutes = require('./routes/checkout');
+const logger = require('./middleware/log');
 
+const imageMiddleware = require('./middleware/image');
+
+
+// apply the logger
 const MONGO_URI = process.env.DB_URI;
 
 const app = express();
@@ -17,13 +22,14 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
+app.use(logger);
+app.get('/images/:filename', imageMiddleware);
 
 // MongoDB connection URL
 const client = new MongoClient(MONGO_URI);
 
 async function startServer() {
   try {
-    // Connect to MongoDB
     await client.connect();
     console.log('✅ Connected to MongoDB');
 
