@@ -1,4 +1,4 @@
-// GET ALL
+
 exports.getAllClasses = async (req, res) => {
   try {
     const classes = await req.classes.find().toArray();
@@ -23,12 +23,12 @@ exports.getClassById = async (req, res) => {
   }
 };
 
-// CREATE
+
 exports.createClass = async (req, res) => {
   try {
     const newClass = req.body;
 
-    // Generate next ID manually if needed
+    
     const last = await req.classes.find().sort({ id: -1 }).limit(1).toArray();
     newClass.id = last.length > 0 ? last[0].id + 1 : 1;
 
@@ -39,7 +39,7 @@ exports.createClass = async (req, res) => {
   }
 };
 
-// UPDATE
+
 exports.updateClass = async (req, res) => {
   try {
     const id = parseInt(req.params.id);

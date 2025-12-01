@@ -1,4 +1,4 @@
-// GET ALL CART ITEMS
+
 exports.getCart = async (req, res) => {
   try {
     const cartItems = await req.cart.find().toArray();
@@ -59,7 +59,7 @@ exports.addToCart = async (req, res) => {
 };
 
 
-// DECREASE QUANTITY OR REMOVE
+
 exports.decreaseCartItem = async (req, res) => {
   try {
     const classId = parseInt(req.params.classId);
@@ -87,7 +87,7 @@ exports.decreaseCartItem = async (req, res) => {
   }
 };
 
-// REMOVE COMPLETELY
+
 exports.removeFromCart = async (req, res) => {
   try {
     const classId = parseInt(req.params.classId);
