@@ -25,7 +25,6 @@ app.use(bodyParser.json());
 app.use(logger);
 app.get('/images/:filename', imageMiddleware);
 
-// MongoDB connection URL
 const client = new MongoClient(MONGO_URI);
 
 async function startServer() {
@@ -33,7 +32,6 @@ async function startServer() {
     await client.connect();
     console.log('✅ Connected to MongoDB');
 
-    // Select database and collections
     const db = client.db('extra_classes'); 
     const classesCollection = db.collection('classes'); // collection name
     const cartCollection = db.collection('cart');

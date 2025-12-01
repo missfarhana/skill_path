@@ -9,7 +9,7 @@ function imageMiddleware(req, res, next) {
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
       return res.status(404).json({
-        error: "Image not found",
+        error: "Images not found",
         file: filename
       });
     }
