@@ -12,12 +12,12 @@ const logger = require('./middleware/log');
 const imageMiddleware = require('./middleware/image');
 
 
-// apply the logger
+
 const MONGO_URI = process.env.DB_URI;
 
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:53123", "null", "http://localhost:3000", "*"],
+  origin: ["http://localhost:53123", "null", "http://localhost:3000", "https://missfarhana.github.io"],
   methods: "GET,POST,PUT,DELETE",
 }));
 
@@ -45,12 +45,12 @@ async function startServer() {
       next();
     });
 
-    // Routes
+    
     app.use('/api/classes', classRoutes);
     app.use('/api/cart', cartRoutes);
     app.use('/api/checkout', checkoutRoutes);
 
-    // Start server
+    
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
 
